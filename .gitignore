@@ -1,0 +1,8 @@
+# Fetched build toolchain (scripts/fetch-esbuild.mjs) — not shipped by the package
+tools/
+node_modules/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log

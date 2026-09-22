@@ -1,0 +1,54 @@
+{
+  "name": "@loki-0228/dsh-remote-link",
+  "version": "0.2.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Loki-0228/dsh-remote-link.git"
+  },
+  "description": "Scan-to-pair remote access for the dsh web GUI, slimmed to the core link: one-time pairing tokens and revocable device sessions, the gated /remote channel that carries a remote desktop's traffic to loopback, a read-only project-file viewer for paired devices, LAN bind, and a plugin-managed SakuraFrp tunnel that gives the QR link a public address. No mobile skin, no telemetry, no self-update.",
+  "type": "module",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "bin",
+    "src",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "toolchain": "node scripts/fetch-esbuild.mjs",
+    "build": "pwsh -NoProfile -File scripts/build.ps1",
+    "check": "pwsh -NoProfile -File scripts/build.ps1 -Check",
+    "test": "node scripts/verify-artifacts.mjs && node scripts/test-client-render.mjs && node scripts/test-host.mjs && node scripts/test-plugin-boot.mjs && node scripts/test-settings-namespace.mjs"
+  },
+  "dsh": {
+    "engines": {
+      "dsh": ">=0.1.5-rc.1"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ],
+      "platform": "web"
+    }
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
