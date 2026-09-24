@@ -2,7 +2,15 @@ import SwiftUI
 import UserNotifications
 
 @MainActor final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    weak var store: RemoteStore?
+    private var pendingPush: [AnyHashable:Any]?
+    weak var store: RemoteStore? {
+        didSet {
+            if let payload = pendingPush, let store {
+                pendingPush = nil
+                store.receivePush(payload)
+            }
+        }
+    }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions options: [UIApplication.LaunchOptionsKey:Any]? = nil) -> Bool {
         UNUserNotificationCenter.current().delegate = self
         return true
@@ -17,7 +25,9 @@ import UserNotifications
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
                                 withCompletionHandler completion: @escaping ()->Void) {
-        store?.receivePush(response.notification.request.content.userInfo); completion()
+        let payload = response.notification.request.content.userInfo
+        if let store { store.receivePush(payload) } else { pendingPush = payload }
+        completion()
     }
 }
 @main struct DSHRemoteApp: App {

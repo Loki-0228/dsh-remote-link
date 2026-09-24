@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "teamId": "YOURTEAMID",
+  "keyId": "YOURKEYID0",
+  "topic": "com.dsh.remote",
+  "privateKeyFile": "AuthKey.p8"
+}

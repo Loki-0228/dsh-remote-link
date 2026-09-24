@@ -1,12 +1,24 @@
 name: Build iPad IPA
 on:
   push:
-    branches: ['codex/ipad-ipa']
-    paths: ['ios/**', '.github/workflows/ios-ipad.yml']
+    branches: ['codex/ipad-ipa', 'main']
+    paths: ['ios/**', 'src/**', 'lib/**', 'scripts/test-apns.mjs', 'package.json', '.github/workflows/ios-ipad.yml']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  push-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate plugin artifacts and APNs
+        run: |
+          node scripts/verify-artifacts.mjs
+          npm run test:apns
   build:
     runs-on: macos-15
     timeout-minutes: 35
@@ -22,7 +34,7 @@ jobs:
         with:
           name: DSH-Remote-iPad-unsigned
           path: ios/build/DSH-Remote-iPad-unsigned.ipa
-          if-no-files-found: ignore
+          if-no-files-found: error
       - name: Upload test results and build logs
         if: always()
         uses: actions/upload-artifact@v4

@@ -24,6 +24,16 @@ import WebKit
         parts.queryItems = [URLQueryItem(name: "device", value: connection.device)]
         web.load(URLRequest(url: parts.url!))
     }
+    func loadRotationFixture() {
+        guard ProcessInfo.processInfo.arguments.contains("--ui-testing") else { return }
+        web.loadHTMLString("""
+            <!doctype html><html lang="zh"><meta name="viewport" content="width=device-width,initial-scale=1">
+            <style>body{font:20px system-ui;padding:24px}input{font:inherit;max-width:90%;padding:12px}</style>
+            <h1>旋转测试页面</h1><p>测试数据：输入应在横竖屏切换后保留。</p>
+            <label>测试输入 <input aria-label="测试输入" id="rotation-input"></label>
+            </html>
+            """, baseURL:nil)
+    }
     func clear() { current = nil; web.stopLoading(); web.loadHTMLString("", baseURL: nil) }
     func retry() { guard let connection = current else { return }; current = nil; connect(connection) }
     private func allowed(_ url: URL) -> Bool {
