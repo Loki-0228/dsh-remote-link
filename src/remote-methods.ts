@@ -73,6 +73,8 @@ export const REMOTE_DEVICE_STORAGE_KEY = 'dsh-remote-device'
 export const LOCAL_ONLY_PREFIXES: readonly string[] = [
   '/api/pair',
   '/api/update',
+  '/api/native-notifications',
+  '/api/remote-notifications',
   PLUGIN_MANAGER_PATH,
 ] as const
 

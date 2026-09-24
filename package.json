@@ -1,6 +1,6 @@
 {
   "name": "@loki-0228/dsh-remote-link",
-  "version": "0.2.1",
+  "version": "0.4.0",
   "private": true,
   "license": "Apache-2.0",
   "repository": {
@@ -30,7 +30,8 @@
     "toolchain": "node scripts/fetch-esbuild.mjs",
     "build": "pwsh -NoProfile -File scripts/build.ps1",
     "check": "pwsh -NoProfile -File scripts/build.ps1 -Check",
-    "test": "node scripts/verify-artifacts.mjs && node scripts/test-client-render.mjs && node scripts/test-host.mjs && node scripts/test-plugin-boot.mjs && node scripts/test-settings-namespace.mjs"
+    "test": "node scripts/verify-artifacts.mjs && node scripts/test-client-render.mjs && node scripts/test-host.mjs && node scripts/test-plugin-boot.mjs && node scripts/test-settings-namespace.mjs",
+    "test:apns": "node --experimental-transform-types --test scripts/test-apns.mjs"
   },
   "dsh": {
     "engines": {

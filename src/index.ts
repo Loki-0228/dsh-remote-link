@@ -39,6 +39,7 @@ import { DEFAULT_TUNNEL_CONFIG, FrpcTunnel, splitToken, type TunnelInfo } from '
 import { REMOTE_CHANNEL_BOOT_SCRIPT } from './remote-channel-boot.ts'
 import { UUID_POLYFILL_SCRIPT } from './uuid-polyfill.ts'
 import { VIEWER_PATHS, viewerRoots, type ViewerContext } from './file-viewer.ts'
+import { notificationRoutes } from './notifications.ts'
 
 /** Stable cordis plugin name. */
 export const name = 'remote-link'
@@ -477,6 +478,7 @@ export function apply(ctx: Context, config?: Config): void {
     }
   }
   const routes = [
+    ...notificationRoutes(ctx, service, () => resolve().enabled),
     ...makeRoutes({
       service,
       requirePairingForLan: () => resolve().requirePairingForLan,

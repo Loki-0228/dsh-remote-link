@@ -65,6 +65,12 @@ dsh plugin --profile web remove @loki-0228/dsh-remote-link
 
 从手机或其它设备打开的面板为只读，修改设置请在电脑上操作。
 
+## iPad 应用与通知接口
+
+iPad 版提供横竖屏远程会话、通知摘要、审批和通知类型设置。安装未签名 IPA 与配置 APNs 的步骤见 [iPad 安装说明](ios/README.md)。
+
+其他插件的通知调用方式、移动设备的 HTTP 接口见 [通知接口参考](docs/notification-api.md)。
+
 ## 技术说明
 
 插件是一个包，由一行插件（`cordis.patch.yml`）挂载两面。宿主进程运行 `lib/index.js`，浏览器运行 `lib/client.js`。
