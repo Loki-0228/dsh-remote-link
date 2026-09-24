@@ -4,9 +4,9 @@
 
 ## 获取并签名 IPA
 
-1. 打开 GitHub Actions 中的「Build iPad IPA」工作流。
-2. 选择成功运行的记录，下载「DSH-Remote-iPad-unsigned」产物。
-3. 解压产物，取得 DSH-Remote-iPad-unsigned.ipa。
+1. 打开 [GitHub Releases](https://github.com/Loki-0228/dsh-remote-link/releases/latest)。
+2. 下载附件 DSH-Remote-iPad-unsigned.ipa。
+3. 准备对应 Bundle ID 的签名证书与描述文件。
 4. 用你的签名工具和描述文件重新签名，再安装到 iPad。
 
 默认 Bundle ID 为 `com.dsh.remote`。如果侧载工具改变 Bundle ID，电脑端 APNs 的 topic 必须改为最终 Bundle ID。
@@ -30,7 +30,7 @@ IPA 没有签名，也不含描述文件。需要后台推送时，签名描述�
 准备 Apple Developer Team ID、APNs Key ID、P-256 的 .p8 私钥，以及最终签名的 Bundle ID。创建密钥的方法见 [Apple 的 token 认证说明](https://developer.apple.com/documentation/usernotifications/establishing-a-token-based-connection-to-apns)。
 
 1. 在电脑用户目录的 `.dsh/apns` 下保存私钥，例如 `AuthKey.p8`。
-2. 将 [config.example.json](../docs/apns/config.example.json) 复制到该目录，改名为 `config.json`。
+2. 将 [config.example.json](../../docs/apns/config.example.json) 复制到该目录，改名为 `config.json`。
 3. 填写 teamId、keyId、topic 和 privateKeyFile。
 4. 重启电脑上的 DSH-Web。
 5. 在 iPad「通知设置」中开启「后台推送」，选择与签名描述文件一致的 APNs 环境。
@@ -47,11 +47,11 @@ IPA 没有签名，也不含描述文件。需要后台推送时，签名描述�
 需要 Xcode 与 iOS Simulator，无第三方 Swift 依赖。在仓库根目录运行：
 
 ```bash
-bash ios/scripts/build-unsigned.sh
-bash ios/scripts/test-ipad.sh
+bash apps/ios/scripts/build-unsigned.sh
+bash apps/ios/scripts/test-ipad.sh
 ```
 
-IPA 位于 `ios/build/DSH-Remote-iPad-unsigned.ipa`。测试结果和截图位于 `ios/build`。脚本生成的 Xcode 项目不提交到仓库。
+IPA 位于 `release/DSH-Remote-iPad-unsigned.ipa`。测试结果和截图位于 `apps/ios/build`。脚本生成的 Xcode 项目不提交到仓库。
 
 ## 验证边界
 

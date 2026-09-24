@@ -31,6 +31,7 @@ import WebKit
             <style>body{font:20px system-ui;padding:24px}input{font:inherit;max-width:90%;padding:12px}</style>
             <h1>旋转测试页面</h1><p>测试数据：输入应在横竖屏切换后保留。</p>
             <label>测试输入 <input aria-label="测试输入" id="rotation-input"></label>
+            <button onclick="document.getElementById('rotation-input').value='rotation-kept'">填入旋转测试草稿</button>
             </html>
             """, baseURL:nil)
     }

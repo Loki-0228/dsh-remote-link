@@ -54,4 +54,4 @@ status 返回 configured 和 registered；电脑已配置时还包含 topic。�
 
 设备记录存于电脑的 `.dsh/apns/devices.json`，以配对设备凭据的 SHA-256 作为索引。发送前重新检查设备是否有效、通知类型是否开启、审批是否仍待处理。Apple 返回失效 token 时删除登记。
 
-完整安装与密钥配置步骤见 [iPad 安装说明](../ios/README.md)。
+完整安装与密钥配置步骤见 [iPad 安装说明](../apps/ios/README.md)。
