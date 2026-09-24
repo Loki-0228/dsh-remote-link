@@ -1,8 +1,16 @@
 import XCTest
 final class iPadUITests: XCTestCase {
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        XCUIDevice.shared.orientation = .portrait
+    }
     func screenshot(_ name: String) {
         let attachment = XCTAttachment(screenshot:XCUIScreen.main.screenshot())
         attachment.name = name; attachment.lifetime = .keepAlways; add(attachment)
+    }
+    func expectValue(_ value: String, in element: XCUIElement) {
+        let condition = XCTNSPredicateExpectation(predicate:NSPredicate(format:"value == %@",value),object:element)
+        XCTAssertEqual(XCTWaiter.wait(for:[condition],timeout:10),.completed)
     }
     func testIPadNavigationAndRotation() {
         let app = XCUIApplication()
@@ -15,20 +23,29 @@ final class iPadUITests: XCTestCase {
         let sessions = app.buttons["nav-sessions"]
         if sessions.exists { sessions.tap() } else { app.staticTexts["远程会话"].firstMatch.tap() }
         let field = app.webViews.textFields["测试输入"]
-        XCTAssertTrue(field.waitForExistence(timeout:10))
-        field.tap(); field.typeText("rotation-kept")
+        XCTAssertTrue(field.waitForExistence(timeout:30),app.debugDescription)
+        // Change the live page after load, independently of Simulator keyboard timing.
+        let fill = app.webViews.buttons["填入旋转测试草稿"]
+        XCTAssertTrue(fill.waitForExistence(timeout:30),app.debugDescription)
+        fill.tap()
+        expectValue("rotation-kept",in:field)
         XCUIDevice.shared.orientation = .portrait
-        XCTAssertEqual(field.value as? String,"rotation-kept")
+        expectValue("rotation-kept",in:field)
         XCUIDevice.shared.orientation = .landscapeLeft
-        XCTAssertEqual(field.value as? String,"rotation-kept")
+        expectValue("rotation-kept",in:field)
         screenshot("ipad-landscape-session")
         let settings = app.buttons["nav-settings"]
         if settings.exists { settings.tap() } else { app.staticTexts["通知设置"].firstMatch.tap() }
-        XCTAssertTrue(app.switches["toggle-task-completed"].waitForExistence(timeout:5))
-        app.switches["toggle-task-completed"].tap()
+        let completed = app.switches["toggle-task-completed"]
+        XCTAssertTrue(completed.waitForExistence(timeout:5))
+        let previous = completed.value as? String
+        XCTAssertTrue(["0","1"].contains(previous ?? ""))
+        let expected = previous == "1" ? "0" : "1"
+        completed.coordinate(withNormalizedOffset:CGVector(dx:1,dy:0.5)).withOffset(CGVector(dx:-20,dy:0)).tap()
+        expectValue(expected,in:completed)
         screenshot("ipad-landscape-settings")
         XCUIDevice.shared.orientation = .portrait
-        XCTAssertTrue(app.switches["toggle-task-completed"].waitForExistence(timeout:5))
+        expectValue(expected,in:completed)
         screenshot("ipad-portrait-settings")
     }
 }

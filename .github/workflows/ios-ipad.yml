@@ -1,8 +1,8 @@
 name: Build iPad IPA
 on:
   push:
-    branches: ['codex/ipad-ipa', 'main']
-    paths: ['ios/**', 'src/**', 'lib/**', 'scripts/test-apns.mjs', 'package.json', '.github/workflows/ios-ipad.yml']
+    branches: ['codex/mobile-releases', 'main']
+    paths: ['apps/ios/**', 'src/**', 'lib/**', 'scripts/test-apns.mjs', 'package.json', '.github/workflows/ios-ipad.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,15 +25,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build unsigned device IPA
-        run: bash ios/scripts/build-unsigned.sh
+        run: bash apps/ios/scripts/build-unsigned.sh
       - name: Test on iPad Simulator
-        run: bash ios/scripts/test-ipad.sh
+        run: bash apps/ios/scripts/test-ipad.sh
       - name: Upload unsigned IPA
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: DSH-Remote-iPad-unsigned
-          path: ios/build/DSH-Remote-iPad-unsigned.ipa
+          path: release/DSH-Remote-iPad-unsigned.ipa
           if-no-files-found: error
       - name: Upload test results and build logs
         if: always()
@@ -41,6 +41,6 @@ jobs:
         with:
           name: iPad-validation
           path: |
-            ios/build/*.log
-            ios/build/*.xcresult
-            ios/build/screenshots/
+            apps/ios/build/*.log
+            apps/ios/build/*.xcresult
+            apps/ios/build/screenshots/

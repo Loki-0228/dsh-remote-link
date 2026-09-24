@@ -8,7 +8,8 @@ mkdir -p build
 xcodebuild -project DSHRemote.xcodeproj -scheme DSHRemote -configuration Release \
   -sdk iphoneos -destination 'generic/platform=iOS' -archivePath build/DSHRemote.xcarchive \
   CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO archive >build/archive.log 2>&1 || { tail -100 build/archive.log; exit 1; }
-mkdir -p build/package/Payload
+RELEASE_DIR="${DSH_RELEASE_DIR:-$ROOT/../../release}"
+mkdir -p build/package/Payload "$RELEASE_DIR"
 ditto build/DSHRemote.xcarchive/Products/Applications/DSHRemote.app build/package/Payload/DSHRemote.app
-/usr/bin/ditto -c -k --keepParent build/package/Payload build/DSH-Remote-iPad-unsigned.ipa
-echo "Unsigned IPA: $ROOT/build/DSH-Remote-iPad-unsigned.ipa"
+/usr/bin/ditto -c -k --keepParent build/package/Payload "$RELEASE_DIR/DSH-Remote-iPad-unsigned.ipa"
+echo "Unsigned IPA: $RELEASE_DIR/DSH-Remote-iPad-unsigned.ipa"

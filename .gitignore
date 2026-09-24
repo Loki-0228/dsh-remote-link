@@ -6,3 +6,14 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# Release attachments and local signing material
+release/
+*.apk
+*.ipa
+*.tgz
+*.p8
+*.p12
+*.mobileprovision
+*.keystore
+*.jks

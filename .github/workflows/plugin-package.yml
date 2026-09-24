@@ -1,0 +1,23 @@
+name: Verify plugin package
+on:
+  push:
+    branches: [main, 'codex/mobile-releases']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check install package contents
+        run: |
+          npm pack --dry-run --json > "$RUNNER_TEMP/plugin-pack.json"
+          node scripts/check-package.mjs "$RUNNER_TEMP/plugin-pack.json"
+      - name: Verify plugin and APNs
+        run: |
+          node scripts/verify-artifacts.mjs
+          npm run test:apns

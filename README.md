@@ -65,11 +65,19 @@ dsh plugin --profile web remove @loki-0228/dsh-remote-link
 
 从手机或其它设备打开的面板为只读，修改设置请在电脑上操作。
 
+## 移动端下载
+
+在 [GitHub Releases](https://github.com/Loki-0228/dsh-remote-link/releases/latest) 下载 Android APK 和未签名 iPad IPA。安装包作为 Release 附件发布，不提交到源码目录，也不包含在插件安装包中。
+
+移动端源码统一放在 apps/android 和 apps/ios。本地构建产物输出到 release/，该目录由 Git 忽略。目录及发布规则见 [发布说明](https://github.com/Loki-0228/dsh-remote-link/blob/main/docs/releases.md)。
+
+Android 的安装步骤见 [Android 安装说明](https://github.com/Loki-0228/dsh-remote-link/blob/main/apps/android/README.md)。
+
 ## iPad 应用与通知接口
 
-iPad 版提供横竖屏远程会话、通知摘要、审批和通知类型设置。安装未签名 IPA 与配置 APNs 的步骤见 [iPad 安装说明](ios/README.md)。
+iPad 版提供横竖屏远程会话、通知摘要、审批和通知类型设置。安装未签名 IPA 与配置 APNs 的步骤见 [iPad 安装说明](https://github.com/Loki-0228/dsh-remote-link/blob/main/apps/ios/README.md)。
 
-其他插件的通知调用方式、移动设备的 HTTP 接口见 [通知接口参考](docs/notification-api.md)。
+其他插件的通知调用方式、移动设备的 HTTP 接口见 [通知接口参考](https://github.com/Loki-0228/dsh-remote-link/blob/main/docs/notification-api.md)。
 
 ## 技术说明
 
