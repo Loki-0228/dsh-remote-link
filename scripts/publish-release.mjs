@@ -37,8 +37,11 @@ async function request(path, method = 'GET', body, missing = false) {
 }
 const commit = await request('commits/' + target)
 if (commit.sha !== target) throw new Error('Target commit mismatch')
-const existingTag = await request('commits/' + encodeURIComponent(tag), 'GET', undefined, true)
-if (existingTag && existingTag.sha !== target) throw new Error('Tag already points to a different commit')
+const existingTag = await request('git/ref/tags/' + encodeURIComponent(tag), 'GET', undefined, true)
+if (existingTag) {
+  const resolvedTag = await request('commits/' + encodeURIComponent(tag))
+  if (resolvedTag.sha !== target) throw new Error('Tag already points to a different commit')
+}
 const body = [
   'Android APK 与 iPad IPA 作为独立下载附件发布，插件安装包不含移动端源码或安装包。',
   '',
