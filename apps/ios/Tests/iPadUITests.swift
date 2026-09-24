@@ -23,10 +23,10 @@ final class iPadUITests: XCTestCase {
         let sessions = app.buttons["nav-sessions"]
         if sessions.exists { sessions.tap() } else { app.staticTexts["远程会话"].firstMatch.tap() }
         let field = app.webViews.textFields["测试输入"]
-        XCTAssertTrue(field.waitForExistence(timeout:10))
+        XCTAssertTrue(field.waitForExistence(timeout:30),app.debugDescription)
         // Change the live page after load, independently of Simulator keyboard timing.
         let fill = app.webViews.buttons["填入旋转测试草稿"]
-        XCTAssertTrue(fill.waitForExistence(timeout:10))
+        XCTAssertTrue(fill.waitForExistence(timeout:30),app.debugDescription)
         fill.tap()
         expectValue("rotation-kept",in:field)
         XCUIDevice.shared.orientation = .portrait

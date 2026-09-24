@@ -6,6 +6,7 @@ import WebKit
     @Published var error: String?
     @Published var loading = false
     private var current: Connection?
+    private var fixtureStarted = false
     override init() {
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .nonPersistent()
@@ -25,7 +26,8 @@ import WebKit
         web.load(URLRequest(url: parts.url!))
     }
     func loadRotationFixture() {
-        guard ProcessInfo.processInfo.arguments.contains("--ui-testing") else { return }
+        guard ProcessInfo.processInfo.arguments.contains("--ui-testing"), !fixtureStarted else { return }
+        fixtureStarted = true
         web.loadHTMLString("""
             <!doctype html><html lang="zh"><meta name="viewport" content="width=device-width,initial-scale=1">
             <style>body{font:20px system-ui;padding:24px}input{font:inherit;max-width:90%;padding:12px}</style>
@@ -67,6 +69,10 @@ import WebKit
 }
 struct RemoteBrowser: UIViewRepresentable {
     @ObservedObject var browser: BrowserSession
-    func makeUIView(context: Context) -> WKWebView { browser.web }
+    func makeUIView(context: Context) -> WKWebView {
+        // Start the offline test page only after SwiftUI has attached the web view.
+        DispatchQueue.main.async { browser.loadRotationFixture() }
+        return browser.web
+    }
     func updateUIView(_ view: WKWebView, context: Context) {}
 }

@@ -34,7 +34,6 @@ enum Destination: String, CaseIterable, Identifiable {
         if let connection { selection = .sessions; browser.connect(connection) }
         if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
             connection = Connection(base:URL(string:"https://example.invalid")!,device:"ui-fixture"); selection = .inbox; status = "界面测试"
-            browser.loadRotationFixture()
             events = [RemoteEvent(id:"ui-example",kind:"task-completed",title:"本轮已结束",body:"测试数据：报表已导出，共 120 行。",taskTitle:"导出季度报表",summary:"测试数据：报表已导出，共 120 行。")]
         }
     }
